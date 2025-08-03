@@ -1,13 +1,10 @@
-// src/components/dashboard/Dashboard.tsx
-'use client'; // Necesario porque vamos a usar useAuth y useRouter
+'use client'; // Necesario porque usamos useState
 
-import React from 'react';
-import CompanyDetails, { CompanyData } from './CompanyDetails';
-import { useAuth } from '../../context/AuthContext'; // Importa el hook de autenticación
-import { useRouter } from 'next/navigation'; // Importa useRouter para la redirección
-import { LuLogOut } from 'react-icons/lu'; // Ícono para el botón de logout
-
-// Datos cableados de múltiples empresas
+import React, { useState } from 'react';
+import CompanyDetails, { CompanyData } from './CompanyDetails'; 
+import Sidebar from './Sidebar'; 
+import DashboardMainContent from './DashboardMainContent'; 
+import { FaSearch } from 'react-icons/fa'; 
 const companies: CompanyData[] = [
   {
     id: "comp1",
@@ -54,36 +51,49 @@ const companies: CompanyData[] = [
 ];
 
 const Dashboard: React.FC = () => {
-  const { logout } = useAuth(); // Obtén la función logout del contexto
-  const router = useRouter(); // Inicializa el router
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showCompanyDetails, setShowCompanyDetails] = useState(false);
 
-  const handleLogout = () => {
-    logout(); // Llama a la función logout del contexto (elimina el token de estado y localStorage)
-    router.push('/'); // Redirige al usuario a la página de login (la raíz)
+  const handleNewSearchClick = () => {
+    setShowCompanyDetails(true); 
+  };
+
+  const handleGoToDashboardMain = () => {
+    setShowCompanyDetails(false); 
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <header className="mb-8 flex justify-between items-center"> 
-        <h1 className="text-4xl font-extrabold text-gray-800">
-          Dashboard
-        </h1>
-        <button
-          onClick={handleLogout}
-          className="bg-gray-600 text-white py-2 px-4 rounded-md text-base font-semibold
-                     hover:bg-gray-800 transition-colors duration-200
-                     flex items-center gap-2"
-        >
-          Cerrar Sesión <LuLogOut className="text-lg" />
-        </button>
-      </header>
-      <main className="container mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {companies.map(company => (
-            <CompanyDetails key={company.id} company={company} />
-          ))}
-        </div>
-      </main>
+    <div className="flex min-h-screen bg-gray-100 relative">
+
+      <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+      <div className="flex-1 pt-16 px-4 pb-4 md:p-8 overflow-auto">
+        <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4 md:mb-0">
+            Panel de Control
+          </h1>
+          <button
+            onClick={handleNewSearchClick} 
+            className="bg-blue-600 text-white py-2 px-4 rounded-md text-base font-semibold
+                       hover:bg-blue-700 transition-colors duration-200
+                       flex items-center gap-2"
+          >
+            <FaSearch className="text-lg" /> 
+            Nueva Búsqueda
+          </button>
+        </header>
+
+        <main className="container mx-auto max-w-7xl">
+          {showCompanyDetails ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {companies.map(company => (
+                <CompanyDetails key={company.id} company={company} onBackClick={handleGoToDashboardMain} />
+              ))}
+            </div>
+          ) : (
+            <DashboardMainContent />
+          )}
+        </main>
+      </div>
     </div>
   );
 };

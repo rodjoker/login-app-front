@@ -5,7 +5,8 @@ import React, { useState } from 'react';
 import * as Form from '@radix-ui/react-form';
 import { LuLogIn } from 'react-icons/lu';
 import { loginUser } from '@/app/services/authService';
-import { useAuth } from '../../context/AuthContext'; // <--- IMPORTANTE: Importa el hook useAuth
+import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'next/navigation'; // Importa useRouter para la navegación
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -13,7 +14,8 @@ const LoginForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { login: authContextLogin } = useAuth(); 
+  const { login: authContextLogin } = useAuth();
+  const router = useRouter(); // Inicializa el hook useRouter
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -22,17 +24,23 @@ const LoginForm: React.FC = () => {
 
     try {
       const response = await loginUser(username, password);
-        if (!response || !response.access_token) {
-            throw new Error('No se recibió un token válido.');
-        }
-      authContextLogin(response.access_token); 
+      if (!response || !response.access_token) {
+        throw new Error('No se recibió un token válido.');
+      }
+      authContextLogin(response.access_token);
       console.log('¡Login exitoso! Token:', response.access_token);
-
+      // Redirige al usuario al dashboard o a la página principal después del login exitoso
+      router.push('/'); // Ajusta esta ruta a tu dashboard
     } catch (err: any) {
       setError(err.message || 'Ocurrió un error inesperado al iniciar sesión.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRegisterClick = () => {
+    // Redirige al usuario a la página de registro
+    router.push('/register'); 
   };
 
   return (
@@ -89,6 +97,17 @@ const LoginForm: React.FC = () => {
           {loading ? 'Cargando...' : <>Iniciar Sesión <LuLogIn className="text-xl" /></>}
         </button>
       </Form.Submit>
+
+      {/* Nuevo botón para Registrarse */}
+      <button
+        type="button" // Importante: Asegúrate de que sea type="button" para que no envíe el formulario
+        onClick={handleRegisterClick}
+        className="mt-4 bg-gray-200 text-gray-700 py-3 px-6 rounded-md text-lg font-bold
+                   hover:bg-gray-300 transition-colors duration-200
+                   flex items-center justify-center gap-2"
+      >
+        Registrarse
+      </button>
     </Form.Root>
   );
 };
