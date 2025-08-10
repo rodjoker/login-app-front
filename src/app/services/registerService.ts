@@ -1,8 +1,6 @@
-// src/app/services/registerService.ts
-
 // Define la interfaz para el payload de registro
 interface RegisterPayload {
-  username: string; // En tu caso, este es el email
+  username: string; // este es el email
   password: string;
   name: string;
   lastname: string;
@@ -13,12 +11,9 @@ interface RegisterPayload {
 // Define la interfaz para la respuesta esperada del backend (ajusta según lo que realmente devuelva tu API)
 interface RegisterResponse {
   message: string;
-  // Podrías añadir más campos si tu API los devuelve, por ejemplo:
-  // userId: string;
-  // token: string; // Aunque normalmente el token no se devuelve en el registro, sino en el login
 }
 
-const REGISTER_API_URL = 'http://localhost:3001/auth/register';
+const REGISTER_API_URL = 'http://localhost:3000/auth/register';
 
 export const registerUser = async (payload: RegisterPayload): Promise<RegisterResponse> => {
   try {

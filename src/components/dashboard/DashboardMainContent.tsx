@@ -28,7 +28,7 @@ const DashboardMainContent: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow-md flex items-center justify-between">
           <div>
             <h2 className="text-xl font-semibold text-gray-700 mb-1">Plan Actual</h2>
-            <p className="text-4xl font-bold text-gray-800">Premium</p>
+            <p className="text-3xl font-bold text-gray-800">Premium</p>
             <p className="text-gray-500 text-sm">500/500 desde el mes pasado</p>
           </div>
           <FaChartLine className="text-5xl text-purple-400 opacity-20" />

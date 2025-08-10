@@ -28,7 +28,6 @@ const LoginForm: React.FC = () => {
         throw new Error('No se recibió un token válido.');
       }
       authContextLogin(response.access_token);
-      console.log('¡Login exitoso! Token:', response.access_token);
       // Redirige al usuario al dashboard o a la página principal después del login exitoso
       router.push('/'); // Ajusta esta ruta a tu dashboard
     } catch (err: any) {

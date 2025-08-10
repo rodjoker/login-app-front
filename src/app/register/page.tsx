@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { registerUser } from '@/app/services/registerService'; // IMPORTA EL NUEVO SERVICIO
+import { loginUser } from '../services/authService';
+import { useAuth } from '@/context/AuthContext';
 
 const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState(''); // Este será el email del usuario
@@ -15,7 +17,7 @@ const RegisterPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
+  const { login: authContextLogin } = useAuth();
   const router = useRouter();
 
   const handleRegisterSubmit = async (e: React.FormEvent) => {
@@ -25,33 +27,38 @@ const RegisterPage: React.FC = () => {
     setSuccessMessage(null);
 
     if (password !== confirmPassword) {
-      setError("Las contraseñas no coinciden.");
-      setLoading(false);
-      return;
+        setError("Las contraseñas no coinciden.");
+        setLoading(false);
+        return;
     }
 
     const payload = {
-      username,
-      password,
-      name,
-      lastname,
-      rol: "user",
-      suscription: "free"
+        username,
+        password,
+        name,
+        lastname,
+        rol: "user",
+        suscription: "free"
     };
 
     try {
-      const response = await registerUser(payload);
-      setSuccessMessage(response.message || '¡Registro exitoso! Ahora puedes iniciar sesión.');
+        const registerResponse = await registerUser(payload);
+        setSuccessMessage(registerResponse.message || '¡Registro exitoso! Iniciando sesión...');
 
-      setTimeout(() => {
+        const loginResponse = await loginUser(username, password);
+        
+        if (!loginResponse || !loginResponse.access_token) {
+            throw new Error('Registro exitoso, pero no se pudo iniciar sesión. Por favor, intenta de nuevo.');
+        }
+
+        authContextLogin(loginResponse.access_token);
         router.push('/'); 
-      }, 2000);
     } catch (err: any) {
-      setError(err.message || 'Ocurrió un error inesperado al registrar.');
+        setError(err.message || 'Ocurrió un error inesperado. Por favor, intenta de nuevo.');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
