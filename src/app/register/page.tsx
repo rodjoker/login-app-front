@@ -37,7 +37,7 @@ const RegisterPage: React.FC = () => {
         password,
         name,
         lastname,
-        rol: "user",
+        rol: "1",
         suscription: "free"
     };
 
