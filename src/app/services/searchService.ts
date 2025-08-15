@@ -4,7 +4,7 @@ export const searchCompanies = async (
   limit: number = 10
 ) => {
                                  
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'login-app-front-brown.vercel.app';
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://auth-server-project.onrender.com';
   //const url = `${baseURL}csv/buscar?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}`;
   const url = `${API_BASE_URL}/csv/buscar?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}`;
   try {

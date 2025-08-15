@@ -7,9 +7,10 @@ interface LoginError {
   statusCode: number;
   error: string;
 }
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://auth-server-project.onrender.com';
 
 export const loginUser = async (username: string, password: string): Promise<LoginResponse> => {
+  console.log('API_BASE_URL:', API_BASE_URL);
   try {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
