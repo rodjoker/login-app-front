@@ -5,7 +5,6 @@ interface RegisterPayload {
   name: string;
   lastname: string;
   rol: string;
-  suscription: string;
 }
 
 // Define la interfaz para la respuesta esperada del backend (ajusta según lo que realmente devuelva tu API)
