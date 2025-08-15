@@ -16,6 +16,7 @@ interface RegisterResponse {
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
 export const registerUser = async (payload: RegisterPayload): Promise<RegisterResponse> => {
+  console.log('API_BASE_URL:', API_BASE_URL);
   try {
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
