@@ -13,11 +13,11 @@ interface RegisterResponse {
   message: string;
 }
 
-const REGISTER_API_URL = 'http://localhost:3000/auth/register';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
 export const registerUser = async (payload: RegisterPayload): Promise<RegisterResponse> => {
   try {
-    const response = await fetch(REGISTER_API_URL, {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
