@@ -29,9 +29,13 @@ const LoginForm: React.FC = () => {
       }
       authContextLogin(response.access_token);
       // Redirige al usuario al dashboard o a la página principal después del login exitoso
-      router.push('/'); // Ajusta esta ruta a tu dashboard
-    } catch (err: any) {
-      setError(err.message || 'Ocurrió un error inesperado al iniciar sesión.');
+      router.push('/'); 
+    } catch (err: unknown) { 
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado al iniciar sesión.');
+      }
     } finally {
       setLoading(false);
     }

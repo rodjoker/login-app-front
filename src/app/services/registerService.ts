@@ -36,9 +36,9 @@ export const registerUser = async (payload: RegisterPayload): Promise<RegisterRe
     // Si la respuesta es exitosa, parsea el JSON y devuélvelo
     return await response.json();
 
-  } catch (error: any) {
+  } catch (error) { // TypeScript infiere el tipo de error, por lo que no es necesario explicitarlo
+    const errorMessage = (error as Error).message || 'Error de red o del servidor al registrar usuario.';
     console.error('Error en registerUser service:', error);
-    // Vuelve a lanzar el error para que el componente que llama lo pueda manejar
-    throw new Error(error.message || 'Error de red o del servidor al registrar usuario.');
+    throw new Error(errorMessage);
   }
 };

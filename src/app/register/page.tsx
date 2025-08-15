@@ -53,8 +53,12 @@ const RegisterPage: React.FC = () => {
 
         authContextLogin(loginResponse.access_token);
         router.push('/'); 
-    } catch (err: any) {
-        setError(err.message || 'Ocurrió un error inesperado. Por favor, intenta de nuevo.');
+    } catch (err: unknown) { 
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado al iniciar sesión.');
+      }
     } finally {
         setLoading(false);
     }
