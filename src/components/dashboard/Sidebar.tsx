@@ -77,20 +77,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen }) =>
                   <span className="ml-2">Buscar Empresas</span>
                 </a>
               </li>
-              <li className="mb-4">
-                <a href="#" className="flex items-center text-gray-700 hover:text-blue-600"
-                   onClick={() => setIsSidebarOpen(false)}>
-                  <FaDatabase className="text-lg" />
-                  <span className="ml-2">Mi Base de Datos</span>
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="flex items-center text-gray-700 hover:text-blue-600"
-                   onClick={() => setIsSidebarOpen(false)}>
-                  <FaChartBar className="text-lg" />
-                  <span className="ml-2">Analytics</span>
-                </a>
-              </li>
             </ul>
           </nav>
         </div>
@@ -104,13 +90,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen }) =>
                  onClick={handleSubscriptionClick}>
                 <FaCreditCard className="text-lg" />
                 <span className="ml-2">Suscripción</span>
-              </a>
-            </li>
-            <li className="mb-4">
-              <a href="#" className="flex items-center text-gray-700 hover:text-blue-600"
-                 onClick={() => setIsSidebarOpen(false)}>
-                <FaCog className="text-lg" />
-                <span className="ml-2">Configuración</span>
               </a>
             </li>
           </ul>
