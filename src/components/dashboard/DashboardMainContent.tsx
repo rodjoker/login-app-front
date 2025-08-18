@@ -1,7 +1,14 @@
+import { useAuth } from '@/context/AuthContext';
 import React from 'react';
 import { FaFileAlt, FaChartLine, FaUsers, FaSearch } from 'react-icons/fa'; // Iconos para las tarjetas
 
 const DashboardMainContent: React.FC = () => {
+  const { setUpdatePlanMode, setSearchMode } = useAuth();
+
+   const handleSubscriptionClick = () => {
+    setUpdatePlanMode(true); // Establece updatePlanMode en true
+    setSearchMode(false); // Establece setSearchMode en false
+  };
   return (
     <div className="space-y-6">
      
@@ -60,7 +67,9 @@ const DashboardMainContent: React.FC = () => {
           <span>350/500</span>
         </div>
         <p className="text-gray-500 text-sm mb-6">Se renueva en 12 días</p>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
+        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+          onClick={handleSubscriptionClick}
+        >
           Actualizar Plan
         </button>
       </div>
